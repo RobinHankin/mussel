@@ -1,0 +1,85 @@
+---
+title: "mussel_schedule"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+We consider the problem of scheduling visits to mussel farms in the South Island.  The full problem has hundreds of farms and thousands of days so we consider a toy problem with seven farms and nine days.  The toy problem has the same issues as the real one but allows us to demonstrate proof-of-concept without worrying about the large amount of data that would be needed for the real problem.  The toy problem has many of the same features as the real one would have.
+
+The basic idea is to come up with a schedule like this:
+
+```{r}
+source("farm_setup.R")
+source("example_schedule.R")
+schedule
+```
+
+In the above, each row is a farm and each column a "block" of time, notionally a single day.  So the first farm has farm ID 8463 and we have seven farms in total.  We have nine blocks of time.
+
+Consider the first column, this corresponds to the schedule on day one.  A zero in a row means that that farm is not visited, the positive integers show the order of visiting the farms.  Thus for block1, we visit f8378 first, then f8344, then f8391.
+
+The difficult restriction is that no farm may be revisited within three time units because the mussels will not have time to grow.
+
+We have a harvest table:
+
+```{r}
+harvest
+```
+
+This shows the expected harvest from each farm as a function of time.
+
+We wish to maximize profit which is measured as tonnage returned to base, minus travel costs.   
+
+We can maximize the profit using simulated annealing, a standard technique:
+
+```{r}
+source("mussel.R")
+out$par
+```
+(the numbers show the optimization in progress)
+
+This shows the optimized schedule and we can calculate the expected profit.
+
+```{r}
+attach(params)
+objective(out$par)
+```
+
+(The minus sign is because the software minimizes rather than maximizes).
+
+It is possible to change the parameters in the problem and we can, for example, make the boat slightly faster.  The default is 25km/h but we can investigate the effect of increasing its speed to 30km/h as follows:
+
+
+```{r}
+params$boat_speed <- 30
+faster_boat <-
+optim(schedule,
+      fn=objective,
+      gr=gradfunc,
+      method="SANN",
+      control=list(maxit=10000,trace=100)
+      
+)
+```
+
+Then the schedule changes:
+
+```{r}
+faster_boat$par
+```
+
+and this changes the overall profit as it allows a more flexible schedule:
+
+```{r}
+objective(faster_boat$par)
+```
+
+
+
+
+
