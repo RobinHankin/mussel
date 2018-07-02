@@ -18,7 +18,6 @@ kilometers_travelled_one_block <- function(v){
       return(0)  # no travel!
     } else {
       Mshort <- farmdist[c(which(v>0),n),c(which(v>0),n)]  # NB: not M[v,v] as the labels are wrong
-
       return(tour_length(solve_TSP(TSP(Mshort))))
     }
 }
@@ -46,12 +45,16 @@ profit <- function(S, verbose=FALSE){
     }
 }
   
-objective <- function(Svec){  # minimize the objective
+objective <- function(Svec,prob=0.01){  # minimize the objective
     S <- matrix(Svec,no_of_farms,no_of_blocks)
     out <- travel_cost(S) - profit(S)
+    if(runif(1) < prob){
+        print(paste("travel: ",round(travel_cost(S)),sep=""))
+        print(paste("profit: ",round(profit(S)),sep=""))
+        print(paste("farms visited: ",sum(S),sep=""))
+    }
     return(out)
 }
-
 
 get_itinerary_one_block <- function(v){
   if(any(v>0)){
