@@ -12,22 +12,14 @@ travel_cost_one_block <- function(v, harvest_one_block){
 }
 
 kilometers_travelled_one_block <- function(v){
-    v %<>% make_triplist_single()
-    howmanynonzero <- sum(v>0)
-    if(howmanynonzero==0){return(0)}  # no travel!
-
-    if(howmanynonzero==1){  # travel to one farm.
-        return(2*sum(basedist[which(v==1)]))  # "*2" because we make a return trip
+  howmanynonzero <- sum(v>0)
+  n <- nrow(farmdist)
+    if(howmanynonzero==0){
+      return(0)  # no travel!
+    } else {
+      Mshort <- farmdist[c(which(v>0),n),c(which(v>0),n)]  # NB: not M[v,v] as the labels are wrong
+      return(tour_length(solve_TSP(TSP(Mshort))))
     }
-
-    out <- 0
-
-    for(i in seq_along(max(v)-1)){
-        out <- out + farmdist[which(v==i), which(v==i+1)]
-    }
-    return(
-        out + basedist[which(v==1)] + basedist[which(v==max(v))]
-        )
 }
 
 travel_cost <- function(S,verbose=FALSE){
@@ -58,3 +50,15 @@ objective <- function(Svec){  # minimize the objective
     out <- travel_cost(S) - profit(S)
     return(out)
 }
+
+
+get_itinerary_one_block <- function(v){
+  if(any(v>0)){
+    n <- no_of_farms + 1   # params is attached
+    Mshort <- farmdist[c(which(v>0),n),c(which(v>0),n)]  # NB: not M[v,v] as the labels are wrong
+    return(cut_tour(solve_TSP(TSP(Mshort)),'base'))
+  } else {
+    return("no travel")
+  }
+}
+    
