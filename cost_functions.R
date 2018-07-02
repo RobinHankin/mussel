@@ -18,6 +18,7 @@ kilometers_travelled_one_block <- function(v){
       return(0)  # no travel!
     } else {
       Mshort <- farmdist[c(which(v>0),n),c(which(v>0),n)]  # NB: not M[v,v] as the labels are wrong
+
       return(tour_length(solve_TSP(TSP(Mshort))))
     }
 }
