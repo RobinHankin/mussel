@@ -3,7 +3,7 @@
 
 travel_cost_one_block <- function(v, harvest_one_block){
   km <- kilometers_travelled_one_block(v)
-  travelling_hours <- km/ (params$boat_speed)
+  travelling_hours <- km/ boat_speed
  
   processing_hours <- sum(harvest_one_block[v>0])/tons_per_hour
   total_hours <- travelling_hours + processing_hours
