@@ -6,7 +6,7 @@
 library("TSP")
 
 M <- as.matrix(read.table("farm_dist_matrix.txt"))
-
+print(M)
 ## first, try visiting *every* farm on the list:
 
 ##
@@ -26,6 +26,7 @@ v <- c(0,1,0,0,0,0,0)   # visit farms 2,3,7.
 Mshort <- M[c(which(v>0),8),c(which(v>0),8)]  # NB: not M[v,v] as the labels are wrong
 
 somefarms <- solve_TSP(TSP(Mshort))
+print(Mshort)
 cat("Short tour itinerary: \n")
 print(cut_tour(somefarms, 'base'),collapse= " ")
 cat("\n total tour length: \n")
