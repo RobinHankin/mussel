@@ -16,7 +16,7 @@ optim(schedule,
       fn=objective,
       gr=gradfunc,
       method="SANN",
-      control=list(maxit=1000,trace=100)
+      control=list(maxit=10000,trace=100)
       )
 
 out$itinerary <- apply(out$par,2,get_itinerary_one_block)
