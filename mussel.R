@@ -2,12 +2,13 @@ library("magrittr")
 library("TSP")
 
 source("farm_setup.R")
+
+attach(params)
 source("example_schedule.R")
 source("schedule_funcs.R")
 source("cost_functions.R")
 source("gradfuncs.R")   # define gradfunc()
 
-attach(params)
 out <-
 optim(schedule,
       fn=objective,
@@ -15,4 +16,8 @@ optim(schedule,
       method="SANN",
       control=list(maxit=10000,trace=100)
       )
+
+out$itinerary <- apply(out$par,2,get_itinerary_single_column)
+
+
 detach(params)
