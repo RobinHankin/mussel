@@ -45,16 +45,19 @@ profit <- function(S, verbose=FALSE){
     }
 }
   
-objective <- function(Svec,prob=0.01){  # minimize the objective
+objective <- function(Svec,prob=0.001){  # maximize (sic) the
+                                        # objective, use a negative
+                                        # fnscale in optim()
     S <- matrix(Svec,no_of_farms,no_of_blocks)
-    out <- travel_cost(S) - profit(S)
+    out <-  profit(S)-travel_cost(S) 
     if(runif(1) < prob){
-        print(paste("travel: ",round(travel_cost(S)),sep=""))
         print(paste("profit: ",round(profit(S)),sep=""))
+        print(paste("travel: ",round(travel_cost(S)),sep=""))
         print(paste("farms visited: ",sum(S),sep=""))
         print(paste("objective: ",round(out),sep=""))
+        print("---")
     }
-    return(out)
+    return(out)  # notionally a dollar value
 }
 
 get_itinerary_one_block <- function(v){
