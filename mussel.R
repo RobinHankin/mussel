@@ -1,15 +1,15 @@
 library("magrittr")
 library("TSP")
 
+if("params" %in% search()){detach(params)}
 source("farm_setup.R")
-
 attach(params)
 
 source("example_schedule.R")
 source("schedule_funcs.R")
 source("cost_functions.R")
 source("gradfuncs.R")   # define gradfunc()
-
+set.seed(0)
 out <-
 optim(schedule,
       fn=objective,
@@ -19,4 +19,4 @@ optim(schedule,
       )
 
 out$itinerary <- apply(out$par,2,get_itinerary_one_block)
-detach(params)
+
