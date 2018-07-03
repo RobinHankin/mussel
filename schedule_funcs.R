@@ -2,6 +2,10 @@
 ## end,add1(), sub1(), munge(), and swap(), are the ones called by the
 ## gradient function.
 
+
+resample <- function(x, ...) x[sample.int(length(x), ...)]  # as per sample.Rd
+
+
 is_ok_single_row <- function(v){  ## checks a single row of a schedule for consistency: 
     nonz <- which(v>0)
     if(any(nonz)){
@@ -17,6 +21,7 @@ is_ok_single_row <- function(v){  ## checks a single row of a schedule for consi
 }
 
 is_ok <- function(S){  # tests an entire schedule for consistency
+  print(S)
     return(all(apply(S,1,is_ok_single_row)) )
 }
 
@@ -24,14 +29,14 @@ is_ok <- function(S){  # tests an entire schedule for consistency
 add1_single <- function(v){
     ## Randomly adds a farm to a block if  possible (if not, return with no change)
     if(any(v==0)){
-        i <- sample(which(v==0),1)
+        i <- resample(which(v==0),1)
         v[i] <- 1
     }
     return(v)
 }
     
 add1_try <- function(S){   # randomly add a farm to a random week irregardless of sensibleness
-    j <- sample(ncol(S),1)
+    j <- sample(ncol(S),1)   # resample() not needed here
     S[,j] <- add1_single(S[,j])
     return(S)
 }
@@ -41,7 +46,7 @@ sub1_single <- function(v){
  ## with no change)
 
     if(any(v>0)){
-        i <- sample(which(v>0),1)
+        i <- resample(which(v>0),1)
         v[i] <- 0
     }
   return(v)
@@ -49,7 +54,7 @@ sub1_single <- function(v){
     
 swap_single <- function(v){  # randomly swaps two farms in one block
     if(sum(v>0)>1){
-        ij <- sample(which(v>0),2,replace=FALSE)
+        ij <- sample(which(v>0),2,replace=FALSE)  # resample() not needed here
         swap     <- v[ij[1]]
         v[ij[1]] <- v[ij[2]]
         v[ij[2]] <- swap
@@ -58,13 +63,13 @@ swap_single <- function(v){  # randomly swaps two farms in one block
 }
 
 munge_single <- function(v){
-
     ## operates on one row of a schedule, referring to a particular
     ## farm.  "Munging" means to change the block in which that farm
     ## is visited.
+  
     if(any(v==0) & any(v>0)){
-        i <- sample(which(v==0),1)
-        j <- sample(which(v> 0),1)
+        i <- resample(which(v==0),1)
+        j <- resample(which(v> 0),1)
         swap <- v[i]
         v[i] <- v[j]
         v[j] <- swap
@@ -73,7 +78,7 @@ munge_single <- function(v){
 }
 
 munge_try <- function(S){  # Tries to munge a schedule; might return an inadmissible schedule
-    i <- sample(nrow(S),1)
+    i <- sample(nrow(S),1)   # resample() not needed here
     S[i,] <- munge_single(S[i,])
     return(S)
 }
@@ -90,7 +95,7 @@ add1 <- function(S,n=100){  # tries 100 times to add a farm
 }
 
 sub1 <- function(S){   # randomly remove a farm in a random week
-    j <- sample(ncol(S),1)
+    j <- sample(ncol(S),1)  # resample() not needed here
     S[,j] <- sub1_single(S[,j])
     return(S)
 }
