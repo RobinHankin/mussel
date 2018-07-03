@@ -106,7 +106,7 @@ munge <- function(S,n=100){  # tries 100 times to find a munged schedule that is
         out <- munge_try(S)
         if(is_ok(out)){ return(out) }
     } # i loop closes
-    return(NA)
+    return(S)
 }
 
 
