@@ -21,7 +21,6 @@ is_ok_single_row <- function(v){  ## checks a single row of a schedule for consi
 }
 
 is_ok <- function(S){  # tests an entire schedule for consistency
-  print(S)
     return(all(apply(S,1,is_ok_single_row)) )
 }
 
