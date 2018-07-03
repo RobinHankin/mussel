@@ -54,7 +54,7 @@ objective <- function(Svec,prob=0.001){  # maximize (sic) the
         print(paste("profit: ",round(profit(S)),sep=""))
         print(paste("travel: ",round(travel_cost(S)),sep=""))
         print(paste("farms visited: ",sum(S),sep=""))
-        print(paste("objective: ",round(out),sep=""))
+        print(paste("objective (to be minimized): ",round(out/(-1e6),2),sep=""))
         print("---")
     }
     return(out)  # notionally a dollar value
