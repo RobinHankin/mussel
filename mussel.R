@@ -7,8 +7,7 @@ attach(params)
 
 source("schedule_funcs.R")
 source("cost_functions.R")
-source("gradfuncs.R")   # define gradfunc()
-set.seed(0)
+
 out <-
   optim(
       schedule,
