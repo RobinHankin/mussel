@@ -54,6 +54,10 @@ rownames(jjbigfarmdist) <- c(rownames(jjbigharvest),"base")
 colnames(jjbigfarmdist) <- c(rownames(jjbigharvest),"base")
 
 
+schedule <- jjbigharvest*0  # gets rownames and colnames right
+
+
+
 
 params <- list(
     recovery       = 2,    # minimum number of nonharvesting blocks between two harvests

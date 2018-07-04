@@ -5,7 +5,6 @@ if("params" %in% search()){detach(params)}
 source("setup.R")
 attach(params)
 
-source("example_schedule.R")
 source("schedule_funcs.R")
 source("cost_functions.R")
 source("gradfuncs.R")   # define gradfunc()
