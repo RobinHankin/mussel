@@ -1,6 +1,6 @@
 ## Various utilities to manipulate a schedule.  The three functions at
 ## the end --- add1(), sub1(), and munge() --- are the ones called by
-## the gradient function.
+## the gradient function gradfunc()
 
 resample <- function(x, ...) x[sample.int(length(x), ...)]  # as per sample.Rd
 
@@ -81,8 +81,9 @@ munge_try <- function(S){  # Tries to munge a schedule; might return an inadmiss
     return(S)
 }
 
-## The three functions below are the ones that are called by the
-## gradient function: add1(), sub1(), and swap().
+## The three functions below are the ones that are called randomly by
+## the gradient function gradfunc() defined at the end.  The three
+## functions are: add1(), sub1(), and swap().
 
 add1 <- function(S,n=100){  # tries 100 times to add a farm
     for(i in seq_len(n)){
@@ -98,7 +99,6 @@ sub1 <- function(S){   # randomly remove a farm in a random week
     return(S)
 }
 
-
 munge <- function(S,n=100){  # tries 100 times to find a munged schedule that is admissible
     for(i in seq_len(n)){
         out <- munge_try(S)
@@ -108,3 +108,21 @@ munge <- function(S,n=100){  # tries 100 times to find a munged schedule that is
 }
 
 
+gradfunc <- function(Svec,n=100){   # randomly perturb schedule
+  S <- matrix(Svec,no_of_farms,no_of_blocks)
+    for(i in seq_len(n)){
+        jj <- sample(3,1)
+        if(jj==1){
+            Snew <- add1(S)
+        } else if(jj==2){
+            Snew <- sub1(S)
+        } else if(jj==3){
+            Snew <- munge(S)
+        } else {
+            stop("this cannot happen")
+        }
+        if(is_ok(Snew)){return(c(Snew))}
+    }
+    warning('no modification found')
+    return(c(S))
+}
