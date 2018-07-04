@@ -1,12 +1,4 @@
-library("magrittr")
-library("TSP")
-
-if("params" %in% search()){detach(params)}
 source("setup.R")
-attach(params)
-
-source("schedule_funcs.R")
-source("cost_functions.R")
 
 out <-
   optim(

@@ -1,3 +1,10 @@
+library("magrittr")
+library("TSP")
+
+if("params" %in% search()){detach(params)}
+
+
+
 ## scheduling problem for mussel collection
 ## First define harvest size:
 
@@ -74,3 +81,7 @@ params <- list(
     
     )
 
+attach(params)
+
+source("schedule_funcs.R")
+source("cost_functions.R")
