@@ -81,7 +81,7 @@ munge_try <- function(S){  # Tries to munge a schedule; might return an inadmiss
     return(S)
 }
 
-## The four functions below are the ones that are called by the
+## The three functions below are the ones that are called by the
 ## gradient function: add1(), sub1(), and swap().
 
 add1 <- function(S,n=100){  # tries 100 times to add a farm
