@@ -19,6 +19,5 @@ out <-
 
 out$itinerary <- apply(out$par,2,get_itinerary_one_block)
 
-
 optimal_schedule <- out$par
-save("optimal_schedule.RData",optimal_schedule)
+save(optimal_schedule, file="optimal_schedule.RData")
