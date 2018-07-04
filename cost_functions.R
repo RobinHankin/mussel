@@ -1,5 +1,5 @@
 ## Defines objective(), which is the objective function minimized by
-## optim() in mussel.R
+## optim() in myopt().  A use-case is given in mussel.R
 
 travel_cost_one_block <- function(v, harvest_one_block){
   km <- kilometers_travelled_one_block(v)
@@ -70,3 +70,18 @@ get_itinerary_one_block <- function(v){
   }
 }
     
+
+myopt <- function(start,maxit=10000){  # myopt(schedule_start) works
+
+  out <-
+    optim(
+        start, 
+        fn=objective,
+        gr=gradfunc,
+        method="SANN",
+        control=list(maxit=maxit,trace=TRUE,temp=1,fnscale= -1e6) # maximizing; fnscale<0
+    )
+
+  out$itinerary <- apply(out$par,2,get_itinerary_one_block)
+  return(out)
+}
