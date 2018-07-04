@@ -1,7 +1,6 @@
-# Various utilities to manipulate a schedule.  The functions at the
-## end,add1(), sub1(), munge(), and swap(), are the ones called by the
-## gradient function.
-
+## Various utilities to manipulate a schedule.  The three functions at
+## the end --- add1(), sub1(), and munge() --- are the ones called by
+## the gradient function.
 
 resample <- function(x, ...) x[sample.int(length(x), ...)]  # as per sample.Rd
 
