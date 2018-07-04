@@ -10,7 +10,7 @@ source("cost_functions.R")
 
 out <-
   optim(
-      schedule,
+      schedule_start, 
       fn=objective,
       gr=gradfunc,
       method="SANN",
