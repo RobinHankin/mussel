@@ -14,7 +14,8 @@ out <-
       fn=objective,
       gr=gradfunc,
       method="SANN",
-      control=list(maxit=100000,trace=TRUE,fnscale= -1e6) # maximizing; fnscale<0
+      control=list(maxit=100000,trace=TRUE,temp=1,fnscale= -1e6) # maximizing; fnscale<0
   )
 
 out$itinerary <- apply(out$par,2,get_itinerary_one_block)
+
