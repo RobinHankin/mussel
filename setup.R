@@ -61,7 +61,8 @@ rownames(jjbigfarmdist) <- c(rownames(jjbigharvest),"base")
 colnames(jjbigfarmdist) <- c(rownames(jjbigharvest),"base")
 
 
-schedule_start <- jjbigharvest*0  # gets rownames and colnames right
+schedule_start <- jjbigharvest*0  # zero farms visited; idiom gets
+                                  # rownames and colnames right
 
 
 params <- list(
