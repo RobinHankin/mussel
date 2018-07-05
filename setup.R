@@ -64,6 +64,9 @@ colnames(jjbigfarmdist) <- c(rownames(jjbigharvest),"base")
 schedule_start <- jjbigharvest*0  # zero farms visited; idiom gets
                                   # rownames and colnames right
 
+load("optimal_schedule.RData")  # pre-optimized schedule
+
+
 
 params <- list(
     recovery       = 2,    # minimum number of nonharvesting blocks between two harvests
